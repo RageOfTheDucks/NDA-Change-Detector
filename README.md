@@ -1,2 +1,3 @@
 # NDA-Change-Detector
-Simple modification detector for legal documents
+Simple program able to detect modifications in legal documents.
+Developed with @natras2 during the Erasmus+ "Innovation Challenge" internship.
