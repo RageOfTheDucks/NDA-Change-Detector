@@ -1,0 +1,35 @@
+//---------------------------------------------------
+		//Revisited NDA pdf file
+		File fileIn = new File("C:/Users/Giovanni/Documents/DEV/JAVAPROJECTS/NDAExtraction/sources/extracted.pdf");
+		//Revisited NDA txt file
+        File fileOut = new File("C:/Users/Giovanni/Documents/DEV/JAVAPROJECTS/NDAExtraction/sources/rev.txt");
+        
+        //Convert Revisited NDA file from pdf to txt
+        PDFReader pr = new PDFReader(fileIn);
+        pr.convertPDFtoString(fileOut);
+        
+        //Original NDA path
+		String inOriginal = "C:/Users/Giovanni/Documents/DEV/JAVAPROJECTS/NDAExtraction/sources/base.txt";
+		//Revisited NDA path
+		String inRevised = "C:/Users/Giovanni/Documents/DEV/JAVAPROJECTS/NDAExtraction/sources/extracted.txt"; //fileOut.getAbsolutePath();
+        //----------------------------------------------------
+		
+		//Format both original and revised files trimming /n
+		FileUtil fu = new FileUtil(inOriginal);
+		File originalFile = fu.removeNewLine();
+		fu.setFileName(inRevised);
+		File revisedFile = fu.removeNewLine();
+		
+		//Extract the main changes between the two files in a txt file
+		File changesFile = fu.changesToTxt(originalFile, revisedFile); //new File("C:/Users/Giovanni/Documents/DEV/JAVAPROJECTS/NDAExtraction/changes.txt"); //
+		
+		//Spot all the difference and showcasing them
+		NDAComparer comparer = new NDAComparer();
+		comparer.computeComparison(changesFile);
+		comparer.print();
+		
+		//Get all the changes
+		Map<String, String> changesInLines = fu.getDelimiters((LinkedHashMap<String, String[]>) comparer.getChangesMap());
+		
+		//changesInLine -> Map having all the changes in changed line
+		//comparer.getChangesMap -> Map having Changes, Addition, Deletion
